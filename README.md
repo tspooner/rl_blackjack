@@ -1,1 +1,1 @@
-# rl_cards
+# rl_blackjack
