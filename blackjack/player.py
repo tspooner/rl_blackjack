@@ -70,8 +70,8 @@ class Agent(MonteCarloLearner):
 
     def get_action(self, upcard):
         h_val = self.hand.value()
-        if h_val > 11 and h_val < 22:
-            state = (h_val-13, int(upcard)-1, int(self.hand.usable_ace))
+        if h_val > 11 and h_val <= 21:
+            state = (h_val-12, int(upcard)-1, int(self.hand.usable_ace))
             self.states_seen.append(state)
 
         if h_val < 20: return Action.hit

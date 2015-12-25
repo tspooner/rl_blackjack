@@ -13,7 +13,7 @@ if __name__ == '__main__':
     g = Blackjack(deck=Deck(), dealer=d, players=[p])
 
     i = 1
-    for _ in range(100000):
+    for _ in range(10000):
         sys.stdout.write("\x1b[2K")
         g.play()
         sys.stdout.write(str(i) + '\r')
