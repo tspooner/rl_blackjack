@@ -1,4 +1,5 @@
-from blackjack.player import Dealer, Agent, Action
+from blackjack.player import Dealer, Agent
+from blackjack.policy import Action
 from blackjack.deck import StandardDeck
 from blackjack.card import Card
 
