@@ -27,7 +27,7 @@ if __name__ == '__main__':
     for _ in range(args.n_simulations):
         sys.stdout.write("\x1b[2K")
         g.play()
-        sys.stdout.write(str(i) + '\r')
+        sys.stdout.write(str(100*i/args.n_simulations)[0:4] + '%\r')
         sys.stdout.flush()
 
         d.clear(); p.clear()

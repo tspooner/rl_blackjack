@@ -1,6 +1,7 @@
 from blackjack.utilities import to_state
 from enum import Enum
 import numpy as np
+import random
 
 class Action(Enum):
     stand = 0
@@ -29,24 +30,24 @@ class AdaptivePolicy(Policy):
         raise NotImplementedError("Please implement this method {AdaptivePolicy.learn}")
 
 class EpsSoftPolicy(AdaptivePolicy):
-    def __init__(self, epsilon=None):
+    def __init__(self, epsilon=0.30, decay_schedule=None):
         super().__init__()
 
         self.k = 0
-        self.fixed_epsilon = epsilon
+        self.epsilon = epsilon
 
-    @property
-    def epsilon(self):
-        if self.fixed_epsilon is not None:
-            return self.fixed_epsilon
+        if decay_schedule is None:
+            self.decay_schedule = lambda x: x*0.9999999
         else:
-            if self.k == 0: return 1
-            else: return 1 / self.k
+            self.decay_schedule = decay_schedule
 
     def get_action(self, hand, upcard):
         state = to_state(hand, upcard)
 
-        return Action(np.argmax(self.pi[state]))
+        if random.random() < self.epsilon:
+            return random.choice(list(Action))
+        else:
+            return Action(np.argmax(self.pi[state]))
 
     def learn(self, Q, history):
         for s,a in history:
@@ -61,3 +62,4 @@ class EpsSoftPolicy(AdaptivePolicy):
                     self.pi[ind] = self.epsilon/len(Action)
 
         self.k += 1
+        self.epsilon = self.decay_schedule(self.epsilon)
